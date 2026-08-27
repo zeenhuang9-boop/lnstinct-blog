@@ -1,0 +1,23 @@
+node_modules/
+.next/
+coverage/
+playwright-report/
+test-results/
+.env*
+!.env.example
+*.tsbuildinfo
+
+# 本地内容与媒体（用户数据，不入库）
+data/
+public/media/
+
+# 工具与备份（不入库）
+.pi-glla/
+git-metadata-sandbox-backup/
+_dev.log
+_*.bat
+_*.mjs
+_*.txt
+_*.log
+_*.html
+x.startsWith('*')
