@@ -3,14 +3,14 @@
 import { redirect } from 'next/navigation';
 
 import { requireAdmin } from '@/lib/auth/server';
-import { createFileContentRepository } from '@/lib/content/file-repository';
+import { getAdminContentRepository } from '@/lib/content/admin-data-source';
 import type { PostInput } from '@/lib/content/types';
 import { transitionStatus } from '@/domain/content-status';
 import type { ContentStatus } from '@/domain/types';
 
 async function adminRepository() {
   await requireAdmin();
-  return createFileContentRepository();
+  return getAdminContentRepository();
 }
 
 export type SavePostResult = { ok: boolean; error?: string; id?: string };

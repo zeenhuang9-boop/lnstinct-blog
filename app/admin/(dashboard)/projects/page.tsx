@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import { createFileContentRepository } from '@/lib/content/file-repository';
+import { getAdminContentRepository } from '@/lib/content/admin-data-source';
 import { requireAdmin } from '@/lib/auth/server';
 import { SectionHeading } from '@/components/section-heading';
 
@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminProjectsPage() {
   await requireAdmin();
-  const repository = createFileContentRepository();
+  const repository = await getAdminContentRepository();
   const projects = await repository.listAllProjects();
 
   return (

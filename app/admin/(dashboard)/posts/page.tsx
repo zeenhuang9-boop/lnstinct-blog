@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import { createFileContentRepository } from '@/lib/content/file-repository';
+import { getAdminContentRepository } from '@/lib/content/admin-data-source';
 import { requireAdmin } from '@/lib/auth/server';
 import { SectionHeading } from '@/components/section-heading';
 
@@ -25,7 +25,7 @@ export default async function AdminPostsPage({ searchParams }: { searchParams: P
   await requireAdmin();
   const { status = 'all', kind = 'all' } = await searchParams;
 
-  const repository = createFileContentRepository();
+  const repository = await getAdminContentRepository();
   const posts = await repository.listAllPosts();
 
   const filtered = posts.filter((post) => (status === 'all' || post.status === status) && (kind === 'all' || post.kind === kind));

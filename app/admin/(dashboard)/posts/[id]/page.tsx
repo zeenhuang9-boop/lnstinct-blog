@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { createFileContentRepository } from '@/lib/content/file-repository';
+import { getAdminContentRepository } from '@/lib/content/admin-data-source';
 import { requireAdmin } from '@/lib/auth/server';
 import { PostForm } from '@/components/admin/post-form';
 
@@ -18,7 +18,7 @@ type Params = { id: string };
 export default async function AdminEditPostPage({ params }: { params: Promise<Params> }) {
   await requireAdmin();
   const { id } = await params;
-  const repository = createFileContentRepository();
+  const repository = await getAdminContentRepository();
   const post = await repository.getPostById(id);
 
   if (!post) {

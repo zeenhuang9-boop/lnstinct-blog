@@ -1,12 +1,12 @@
 -- lnstinct-blog Supabase migrations
 -- 说明：字段与 Task 1 的 snake_case Row 类型严格对齐。
--- 应用不持有 service-role key；所有写操作由 admin_users 中的管理员身份完成。
+-- 公开读走 anon/publishable key + RLS（仅 published）；后台写走 service-role key（服务端 Server Action）。
 
 -- ---------------------------------------------------------------------------
 -- 1. posts
 -- ---------------------------------------------------------------------------
 create type public.content_status as enum ('draft', 'published', 'trashed');
-create type public.post_kind as enum ('article', 'essay');
+create type public.post_kind as enum ('article', 'learning');
 
 create table public.posts (
   id uuid primary key default gen_random_uuid(),
@@ -56,6 +56,7 @@ create table public.projects (
   live_url text,
   tags text[] not null default '{}',
   featured boolean not null default false,
+  sort_order integer not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   constraint projects_title_not_blank check (length(btrim(title)) > 0),
@@ -124,10 +125,11 @@ create policy "admin_users_self_read"
 -- ---------------------------------------------------------------------------
 -- 5. Storage：draft-media 私有、public-media 公开；仅管理员可上传/移动/删除
 -- ---------------------------------------------------------------------------
--- 创建 bucket（在 SQL 中声明，实际操作在管理控制台或脚本中执行）
--- insert into storage.buckets (id, name, public)
--- values ('draft-media', 'draft-media', false),
---        ('public-media', 'public-media', true);
+-- 创建 bucket（service-role 后台写会绕过 RLS，故匿名读公开桶即可）
+insert into storage.buckets (id, name, public)
+values ('draft-media', 'draft-media', false),
+       ('public-media', 'public-media', true)
+on conflict (id) do nothing;
 
 -- draft-media：管理员读写，其余不可见
 create policy "draft_media_admin_all"

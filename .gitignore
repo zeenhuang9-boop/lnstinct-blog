@@ -15,6 +15,9 @@ public/media/
 .pi-glla/
 git-metadata-sandbox-backup/
 supabase/.temp/
+# 调试残留（子代理调试产生的临时文件）
+_gh-check.ps1
+.test-probe*
 _dev.log
 _*.bat
 _*.mjs

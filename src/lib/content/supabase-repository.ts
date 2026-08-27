@@ -1,11 +1,12 @@
 import type { ContentRepository, PostQuery } from '@/lib/content/repository';
 import { filterPublishedPosts } from '@/lib/content/filter';
-import type { Post, PostKind, Project } from '@/domain/types';
+import type { Post, PostKind } from '@/domain/types';
+import { mapPostRow, mapProjectRow } from '@/lib/content/supabase-row-mapper';
 
 /**
  * Supabase 仓储的公开读实现。
  * 只有 NEXT_PUBLIC_SUPABASE_URL 与 NEXT_PUBLIC_SUPABASE_ANON_KEY 都配置时才被创建；
- * 应用不持有 service-role key，所有读走 RLS：匿名仅能读 published。
+ * 匿名读仅能读 published（RLS），后台写操作走 service-role key（见 supabase-admin-repository）。
  */
 export function createSupabaseContentRepository(): ContentRepository {
   return {
@@ -57,44 +58,14 @@ export function createSupabaseContentRepository(): ContentRepository {
         .from('projects')
         .select('*')
         .order('featured', { ascending: false })
+        .order('sort_order', { ascending: true })
         .order('created_at', { ascending: false });
 
       if (error) {
         return [];
       }
 
-      return (data as Project[]).map(mapProjectRow);
+      return (data ?? []).map(mapProjectRow);
     },
-  };
-}
-
-function mapPostRow(row: Record<string, unknown>): Post {
-  return {
-    id: String(row.id),
-    slug: String(row.slug),
-    kind: String(row.kind) as PostKind,
-    title: String(row.title),
-    summary: row.summary == null ? null : String(row.summary),
-    content: (row.content ?? { type: 'doc', content: [] }) as Post['content'],
-    tags: Array.isArray(row.tags) ? (row.tags as string[]) : [],
-    status: String(row.status) as Post['status'],
-    publishedAt: row.published_at == null ? null : String(row.published_at),
-    createdAt: String(row.created_at),
-    updatedAt: String(row.updated_at),
-  };
-}
-
-function mapProjectRow(row: Record<string, unknown>): Project {
-  return {
-    id: String(row.id),
-    slug: String(row.slug),
-    title: String(row.title),
-    description: String(row.description),
-    repositoryUrl: String(row.repository_url),
-    liveUrl: row.live_url == null ? null : String(row.live_url),
-    tags: Array.isArray(row.tags) ? (row.tags as string[]) : [],
-    featured: Boolean(row.featured),
-    createdAt: String(row.created_at),
-    updatedAt: String(row.updated_at),
   };
 }

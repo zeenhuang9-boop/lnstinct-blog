@@ -3,12 +3,12 @@
 import { redirect } from 'next/navigation';
 
 import { requireAdmin } from '@/lib/auth/server';
-import { createFileContentRepository } from '@/lib/content/file-repository';
+import { getAdminContentRepository } from '@/lib/content/admin-data-source';
 import type { ProjectInput } from '@/lib/content/types';
 
 async function adminRepository() {
   await requireAdmin();
-  return createFileContentRepository();
+  return getAdminContentRepository();
 }
 
 export type SaveProjectResult = { ok: boolean; error?: string; id?: string };
