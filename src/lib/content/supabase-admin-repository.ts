@@ -107,6 +107,7 @@ export function createSupabaseAdminContentRepository(): AdminContentRepository |
         .from('posts')
         .update({
           slug: uniqueSlug(slugifyTitle(valid.title), taken),
+          kind: valid.kind,
           title: valid.title,
           summary: valid.summary ?? null,
           content: valid.content,

@@ -27,6 +27,63 @@ describe('tiptapContentSchema', () => {
     expect(tiptapContentSchema.safeParse(document).success).toBe(false);
   });
 
+  it('accepts link attributes emitted by the Tiptap Markdown parser', () => {
+    const document = {
+      type: 'doc',
+      content: [{
+        type: 'paragraph',
+        content: [{
+          type: 'text',
+          text: 'Open',
+          marks: [{ type: 'link', attrs: { href: 'https://example.com', title: null } }],
+        }],
+      }],
+    };
+
+    expect(tiptapContentSchema.safeParse(document).success).toBe(true);
+  });
+
+  it('accepts safe link defaults emitted after switching back to rich text', () => {
+    const document = {
+      type: 'doc',
+      content: [{
+        type: 'paragraph',
+        content: [{
+          type: 'text',
+          text: 'Open',
+          marks: [{
+            type: 'link',
+            attrs: {
+              href: 'https://example.com',
+              target: '_blank',
+              rel: 'noreferrer noopener',
+              class: null,
+              title: null,
+            },
+          }],
+        }],
+      }],
+    };
+
+    expect(tiptapContentSchema.safeParse(document).success).toBe(true);
+  });
+
+  it('rejects unsafe extra link attributes', () => {
+    const document = {
+      type: 'doc',
+      content: [{
+        type: 'paragraph',
+        content: [{
+          type: 'text',
+          text: 'Open',
+          marks: [{ type: 'link', attrs: { href: 'https://example.com', target: '_self', onclick: 'alert(1)' } }],
+        }],
+      }],
+    };
+
+    expect(tiptapContentSchema.safeParse(document).success).toBe(false);
+  });
+
   it('rejects a doc node nested directly under the root doc', () => {
     const document = { type: 'doc', content: [{ type: 'doc', content: [] }] };
 
@@ -110,6 +167,24 @@ describe('tiptapContentSchema', () => {
     };
 
     expect(tiptapContentSchema.safeParse(document).success).toBe(true);
+  });
+
+  it('accepts codeBlock language emitted by the Tiptap Markdown parser', () => {
+    const document = {
+      type: 'doc',
+      content: [{ type: 'codeBlock', attrs: { language: null }, content: [{ type: 'text', text: 'const x = 1;' }] }],
+    };
+
+    expect(tiptapContentSchema.safeParse(document).success).toBe(true);
+  });
+
+  it('rejects unsafe codeBlock language values', () => {
+    const document = {
+      type: 'doc',
+      content: [{ type: 'codeBlock', attrs: { language: 'js" onclick="alert(1)' }, content: [] }],
+    };
+
+    expect(tiptapContentSchema.safeParse(document).success).toBe(false);
   });
 
   it('accepts listItem children inside a list', () => {

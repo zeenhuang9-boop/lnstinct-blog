@@ -54,20 +54,6 @@ export default async function HomePage() {
             这个站点是我的私人空间，所有内容都由我本人书写，暂不开放评论与注册。
           </p>
         </div>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <Link
-            href="/learning"
-            className="border border-rust px-4 py-2 text-sm text-rust transition-colors hover:bg-rust hover:text-paper dark:border-rust-soft dark:text-rust-soft dark:hover:bg-rust-soft dark:hover:text-night"
-          >
-            学习记录
-          </Link>
-          <Link
-            href="/about"
-            className="border border-rule px-4 py-2 text-sm text-ink-soft transition-colors hover:border-rust hover:text-rust dark:border-night-rule dark:text-cream-soft dark:hover:border-rust-soft dark:hover:text-rust-soft"
-          >
-            了解更多
-          </Link>
-        </div>
       </section>
 
       <section aria-labelledby="featured-projects-title">

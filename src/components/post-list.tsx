@@ -1,10 +1,7 @@
 import type { Post } from '@/domain/types';
 
 import { EmptyState } from '@/components/empty-state';
-
-function formatDate(post: Post): string {
-  return (post.publishedAt ?? post.createdAt).slice(0, 10);
-}
+import { formatChinaDateTime } from '@/lib/date-time';
 
 export function PostList({
   posts,
@@ -34,7 +31,9 @@ export function PostList({
               </a>
             </h3>
             <p className="mt-1 text-xs text-ink-soft dark:text-cream-soft">
-              <time dateTime={post.publishedAt ?? post.createdAt}>{formatDate(post)}</time>
+              <time dateTime={post.publishedAt ?? post.createdAt}>
+                {formatChinaDateTime(post.publishedAt ?? post.createdAt)}
+              </time>
             </p>
             {post.summary ? (
               <p className="mt-2 text-sm leading-relaxed text-ink-soft dark:text-cream-soft">{post.summary}</p>

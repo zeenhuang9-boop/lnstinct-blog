@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { getAdminContentRepository } from '@/lib/content/admin-data-source';
 import { requireAdmin } from '@/lib/auth/server';
 import { SectionHeading } from '@/components/section-heading';
+import { postKindLabel } from '@/lib/content/labels';
 
 export const metadata: Metadata = {
   title: '概览',
@@ -56,7 +57,7 @@ export default async function AdminDashboardPage() {
                   {post.title || '（未命名）'}
                 </Link>
                 <span className="shrink-0 text-xs text-ink-soft dark:text-cream-soft">
-                  {post.kind === 'article' ? '文章' : '散文'} ·{' '}
+                  {postKindLabel(post.kind)} ·{' '}
                   {post.status === 'published' ? '已发布' : post.status === 'draft' ? '草稿' : '回收站'}
                 </span>
               </li>

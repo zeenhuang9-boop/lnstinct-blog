@@ -65,6 +65,16 @@ describe('createFileContentRepository', () => {
     expect(fetched?.title).toBe('新标题');
   });
 
+  it('updatePost 可以把文章改为学习记录', async () => {
+    const repository = createFileContentRepository();
+    const post = await repository.createPost(makePostInput({ kind: 'article' }));
+
+    const updated = await repository.updatePost(post.id, makePostInput({ kind: 'learning' }));
+
+    expect(updated.kind).toBe('learning');
+    expect((await repository.getPostById(post.id))?.kind).toBe('learning');
+  });
+
   it('setPostStatus 发布时写入 publishedAt，撤回时清空', async () => {
     const repository = createFileContentRepository();
     const post = await repository.createPost(makePostInput());

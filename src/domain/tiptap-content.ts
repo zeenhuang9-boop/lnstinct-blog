@@ -98,7 +98,35 @@ function isAllowedMark(value: unknown): value is TiptapMark {
     return value.attrs === undefined;
   }
 
-  return isRecord(value.attrs) && hasOnlyKeys(value.attrs, ['href']) && isSafeLink(value.attrs.href);
+  if (!isRecord(value.attrs) || !hasOnlyKeys(value.attrs, ['href', 'title', 'target', 'rel', 'class']) || !isSafeLink(value.attrs.href)) {
+    return false;
+  }
+
+  if (value.attrs.title !== undefined && value.attrs.title !== null && typeof value.attrs.title !== 'string') {
+    return false;
+  }
+
+  if (value.attrs.target !== undefined && value.attrs.target !== null && value.attrs.target !== '_blank') {
+    return false;
+  }
+
+  if (value.attrs.class !== undefined && value.attrs.class !== null) {
+    return false;
+  }
+
+  if (value.attrs.rel !== undefined && value.attrs.rel !== null) {
+    if (typeof value.attrs.rel !== 'string') {
+      return false;
+    }
+
+    const allowedRelTokens = new Set(['noreferrer', 'noopener', 'nofollow']);
+    const relTokens = value.attrs.rel.split(/\s+/).filter(Boolean);
+    if (relTokens.some((token) => !allowedRelTokens.has(token))) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 function permitsChild(parentType: string, childType: string): boolean {
@@ -149,6 +177,17 @@ function isAllowedNode(value: unknown, parentType: string): value is TiptapNode 
   } else if (value.type === 'image') {
     if (!isRecord(value.attrs) || !isAllowedImage(value.attrs)) {
       return false;
+    }
+  } else if (value.type === 'codeBlock') {
+    if (value.attrs !== undefined) {
+      if (!isRecord(value.attrs) || !hasOnlyKeys(value.attrs, ['language'])) {
+        return false;
+      }
+
+      const language = value.attrs.language;
+      if (language !== null && language !== undefined && (typeof language !== 'string' || !/^[\w.+-]{1,50}$/.test(language))) {
+        return false;
+      }
     }
   } else if (value.attrs !== undefined) {
     return false;

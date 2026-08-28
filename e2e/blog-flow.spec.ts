@@ -57,9 +57,20 @@ test.describe('博客完整使用流程（本地验收）', () => {
     await createPost(page, {
       title: essayTitle,
       summary: '学习记录摘要。',
-      kind: 'learning',
+      kind: 'article',
       body: '学习记录正文内容。',
     });
+
+    // 复现真实操作：先按文章写作并保存，再改成学习记录。
+    await page.locator('#post-kind').selectOption('learning');
+    await page.getByRole('button', { name: '保存草稿' }).click();
+    await expect(page.getByText('已保存').first()).toBeVisible();
+
+    await page.goto('/admin/posts');
+    const item = page.getByRole('link', { name: essayTitle }).locator('..');
+    await expect(item).toContainText('学习记录');
+    await expect(item).not.toContainText('散文');
+    await page.getByRole('link', { name: essayTitle }).click();
 
     await page.getByRole('button', { name: '发布' }).click();
     await expect(page.getByText('已发布', { exact: true })).toBeVisible();

@@ -21,6 +21,25 @@ describe('postInputSchema', () => {
   it('rejects more than five tags', () => {
     expect(postInputSchema.safeParse({ ...validPost, tags: ['a', 'b', 'c', 'd', 'e', 'f'] }).success).toBe(false);
   });
+
+  it('accepts Markdown links and fenced code after conversion to Tiptap JSON', () => {
+    const content = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [{
+            type: 'text',
+            text: '文档',
+            marks: [{ type: 'link', attrs: { href: 'https://example.com', title: null } }],
+          }],
+        },
+        { type: 'codeBlock', attrs: { language: 'ts' }, content: [{ type: 'text', text: 'const ok = true;' }] },
+      ],
+    };
+
+    expect(postInputSchema.safeParse({ ...validPost, content }).success).toBe(true);
+  });
 });
 
 describe('projectInputSchema', () => {

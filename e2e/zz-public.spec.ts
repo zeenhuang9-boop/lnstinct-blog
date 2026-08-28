@@ -5,6 +5,14 @@ import { test, expect } from '@playwright/test';
  * 文件以 zz- 开头，保证在内容创建测试之后运行。
  */
 test.describe('公开站点', () => {
+  test('首页关于区不再显示学习记录与了解更多按钮', async ({ page }) => {
+    await page.goto('/');
+    const aboutSection = page.locator('section[aria-labelledby="about-summary-title"]');
+
+    await expect(aboutSection.getByRole('link', { name: '学习记录', exact: true })).toHaveCount(0);
+    await expect(aboutSection.getByRole('link', { name: '了解更多', exact: true })).toHaveCount(0);
+  });
+
   test('主导航与各列表页可访问', async ({ page }, testInfo) => {
     await page.goto('/');
 

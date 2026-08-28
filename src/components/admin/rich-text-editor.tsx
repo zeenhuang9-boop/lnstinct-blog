@@ -5,6 +5,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
+import { Markdown } from '@tiptap/markdown';
 
 import type { TiptapDocument } from '@/domain/types';
 import { uploadMediaAction } from '@/lib/actions/media';
@@ -12,6 +13,7 @@ import { uploadMediaAction } from '@/lib/actions/media';
 const emptyDoc: TiptapDocument = { type: 'doc', content: [] };
 
 type EditorStatus = 'idle' | 'uploading' | 'upload-error';
+type EditorMode = 'rich-text' | 'markdown';
 
 function ToolbarButton({
   label,
@@ -50,6 +52,8 @@ export function RichTextEditor({
 }) {
   const [, setTick] = useState(0);
   const [status, setStatus] = useState<EditorStatus>('idle');
+  const [mode, setMode] = useState<EditorMode>('rich-text');
+  const [markdownSource, setMarkdownSource] = useState('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const editor = useEditor({
@@ -66,6 +70,7 @@ export function RichTextEditor({
       }),
       Image,
       Placeholder.configure({ placeholder: '从这里开始写作……' }),
+      Markdown,
     ],
     content: initialContent,
     onUpdate: ({ editor: instance }) => {
@@ -126,17 +131,67 @@ export function RichTextEditor({
     }
   }
 
+  function switchMode(nextMode: EditorMode) {
+    if (!editor || nextMode === mode) {
+      return;
+    }
+
+    if (nextMode === 'markdown') {
+      setMarkdownSource(editor.getMarkdown());
+    } else {
+      editor.commands.setContent(markdownSource, { contentType: 'markdown' });
+    }
+
+    setMode(nextMode);
+  }
+
+  function updateMarkdown(value: string) {
+    setMarkdownSource(value);
+
+    if (!editor) {
+      return;
+    }
+
+    const document = editor.markdown?.parse(value);
+    if (document?.type === 'doc') {
+      onChange(document as TiptapDocument);
+    }
+  }
+
   if (!editor) {
     return <div className="min-h-64 border border-rule bg-paper dark:border-night-rule dark:bg-night" />;
   }
 
   return (
     <div>
-      <div
-        className="flex flex-wrap items-center gap-1 border border-b-0 border-rule bg-paper-soft p-2 dark:border-night-rule dark:bg-night-soft"
-        role="toolbar"
-        aria-label="正文格式工具栏"
-      >
+      <div className="mb-2 inline-flex border border-rule dark:border-night-rule" role="group" aria-label="正文编辑模式">
+        {([
+          ['rich-text', '富文本'],
+          ['markdown', 'Markdown'],
+        ] as const).map(([value, label]) => (
+          <button
+            key={value}
+            type="button"
+            aria-pressed={mode === value}
+            onClick={() => switchMode(value)}
+            className={`px-3 py-1.5 text-xs transition-colors ${
+              mode === value
+                ? 'bg-rust text-paper dark:bg-rust-soft dark:text-night'
+                : 'text-ink-soft hover:text-rust dark:text-cream-soft dark:hover:text-rust-soft'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {mode === 'rich-text' ? (
+        <>
+          <div
+            className="flex flex-wrap items-center gap-1 border border-b-0 border-rule bg-paper-soft p-2 dark:border-night-rule dark:bg-night-soft"
+            role="toolbar"
+            aria-label="正文格式工具栏"
+          >
         <ToolbarButton label="H1" active={editor.isActive('heading', { level: 1 })} onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} />
         <ToolbarButton label="H2" active={editor.isActive('heading', { level: 2 })} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} />
         <ToolbarButton label="H3" active={editor.isActive('heading', { level: 3 })} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} />
@@ -153,12 +208,28 @@ export function RichTextEditor({
         <span className="mx-1 h-6 w-px bg-rule dark:bg-night-rule" aria-hidden="true" />
         <ToolbarButton label="链接" active={editor.isActive('link')} onClick={setLink} />
         <ToolbarButton label={status === 'uploading' ? '上传中…' : '图片'} disabled={status === 'uploading'} onClick={() => fileInputRef.current?.click()} />
-      </div>
+          </div>
 
-      <EditorContent
-        editor={editor}
-        className="rich-text-editor min-h-64 border border-rule bg-paper dark:border-night-rule dark:bg-night"
-      />
+          <EditorContent
+            editor={editor}
+            className="rich-text-editor min-h-64 border border-rule bg-paper dark:border-night-rule dark:bg-night"
+          />
+        </>
+      ) : (
+        <div>
+          <textarea
+            aria-label="Markdown 正文"
+            value={markdownSource}
+            onChange={(event) => updateMarkdown(event.target.value)}
+            spellCheck={false}
+            className="min-h-80 w-full resize-y border border-rule bg-paper p-4 font-mono text-sm leading-7 text-ink outline-none focus:border-rust dark:border-night-rule dark:bg-night dark:text-cream dark:focus:border-rust-soft"
+            placeholder="# 从这里开始写作……"
+          />
+          <p className="mt-1 text-xs text-ink-soft dark:text-cream-soft">
+            支持标题、粗体、斜体、引用、链接、列表、代码块与图片语法；内容仍以结构化正文安全保存。
+          </p>
+        </div>
+      )}
 
       <input
         ref={fileInputRef}

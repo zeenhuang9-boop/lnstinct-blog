@@ -120,6 +120,7 @@ export function createFileContentRepository(): ContentRepository & AdminContentR
       const updated: Post = {
         ...current,
         slug: uniqueSlug(slugifyTitle(valid.title), new Set(posts.filter((post) => post.id !== id).map((post) => post.slug))),
+        kind: valid.kind,
         title: valid.title,
         summary: valid.summary ?? null,
         content: valid.content,

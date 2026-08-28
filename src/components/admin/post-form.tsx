@@ -6,7 +6,13 @@ import { useRouter } from 'next/navigation';
 import type { Post, TiptapDocument } from '@/domain/types';
 import { RichTextEditor } from '@/components/admin/rich-text-editor';
 import { RichText } from '@/components/rich-text';
-import { createPostAction, updatePostAction, changePostStatusAction, deletePostAction } from '@/lib/actions/posts';
+import {
+  createPostAction,
+  updatePostAction,
+  changePostStatusAction,
+  deletePostAction,
+  type SavePostResult,
+} from '@/lib/actions/posts';
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
@@ -27,6 +33,9 @@ export function PostForm({ post }: { post: Post | null }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const saveQueueRef = useRef<Promise<SavePostResult>>(Promise.resolve({ ok: true }));
+  const saveVersionRef = useRef(0);
+  const statusInFlightRef = useRef(false);
 
   const isNew = post === null;
   const hasUnsaved = saveState === 'saving' || saveState === 'error';
@@ -47,6 +56,31 @@ export function PostForm({ post }: { post: Post | null }) {
     return form;
   }
 
+  function enqueueOperation(operation: () => Promise<SavePostResult>): Promise<SavePostResult> {
+    const execute = () => operation();
+    const queued = saveQueueRef.current
+      .then(execute, execute)
+      .catch((error: unknown) => ({ ok: false, error: error instanceof Error ? error.message : '保存失败' }));
+
+    saveQueueRef.current = queued;
+    return queued;
+  }
+
+  function enqueueUpdate(formData: FormData): Promise<SavePostResult> {
+    const version = saveVersionRef.current + 1;
+    saveVersionRef.current = version;
+    setSaveState('saving');
+
+    const queued = enqueueOperation(() => updatePostAction(formData));
+
+    return queued.then((result) => {
+      if (version === saveVersionRef.current) {
+        setSaveState(result.ok ? 'saved' : 'error');
+      }
+      return result;
+    });
+  }
+
   // 自动保存：2 秒防抖；失败时保留本地正文并提示，不丢失内容。
   useEffect(() => {
     if (isNew || title === '') {
@@ -58,9 +92,8 @@ export function PostForm({ post }: { post: Post | null }) {
     }
 
     timerRef.current = setTimeout(async () => {
-      setSaveState('saving');
-      const result = await updatePostAction(buildFormData());
-      setSaveState(result.ok ? 'saved' : 'error');
+      timerRef.current = null;
+      await enqueueUpdate(buildFormData());
     }, 2000);
 
     return () => {
@@ -88,13 +121,12 @@ export function PostForm({ post }: { post: Post | null }) {
       return;
     }
 
-    const result = await updatePostAction(buildFormData());
-    setSaveState(result.ok ? 'saved' : 'error');
+    const result = await enqueueUpdate(buildFormData());
     setActionError(result.ok ? null : (result.error ?? '保存失败'));
   }
 
   async function runStatus(event: 'publish' | 'withdraw' | 'trash' | 'restore') {
-    if (!post) {
+    if (!post || statusInFlightRef.current) {
       return;
     }
 
@@ -103,13 +135,36 @@ export function PostForm({ post }: { post: Post | null }) {
       return;
     }
 
-    const result = await changePostStatusAction(buildFormData({ event }));
+    statusInFlightRef.current = true;
 
-    if (result.ok) {
-      setActionError(null);
-      router.refresh();
-    } else {
-      setActionError(result.error ?? '操作失败');
+    try {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+
+      const saveResult = await enqueueUpdate(buildFormData());
+
+      if (!saveResult.ok) {
+        setActionError(saveResult.error ?? '保存失败');
+        return;
+      }
+
+      const statusPromise = enqueueOperation(() => changePostStatusAction(buildFormData({ event })));
+      const result = await statusPromise;
+
+      if (result.ok) {
+        setActionError(null);
+        const trailingOperation = saveQueueRef.current;
+        if (trailingOperation !== statusPromise) {
+          await trailingOperation;
+        }
+        router.refresh();
+      } else {
+        setActionError(result.error ?? '操作失败');
+      }
+    } finally {
+      statusInFlightRef.current = false;
     }
   }
 

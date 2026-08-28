@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { getAdminContentRepository } from '@/lib/content/admin-data-source';
 import { requireAdmin } from '@/lib/auth/server';
 import { SectionHeading } from '@/components/section-heading';
+import { postKindLabel } from '@/lib/content/labels';
+import { formatChinaDateTime } from '@/lib/date-time';
 
 export const metadata: Metadata = {
   title: '内容管理',
@@ -77,9 +79,8 @@ export default async function AdminPostsPage({ searchParams }: { searchParams: P
                   {post.title || '（未命名）'}
                 </Link>
                 <p className="mt-0.5 text-xs text-ink-soft dark:text-cream-soft">
-                  {post.kind === 'article' ? '文章' : '散文'} ·{' '}
-                  {post.publishedAt ? new Date(post.publishedAt).toISOString().slice(0, 10) : '未发布'} · 更新于{' '}
-                  {post.updatedAt.slice(0, 10)}
+                  {postKindLabel(post.kind)} · {post.publishedAt ? formatChinaDateTime(post.publishedAt) : '未发布'} · 更新于{' '}
+                  {formatChinaDateTime(post.updatedAt)}
                 </p>
               </div>
               <span

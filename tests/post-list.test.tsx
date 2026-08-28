@@ -36,8 +36,14 @@ describe('PostList', () => {
     expect(screen.getByRole('heading', { level: 3, name: '第一篇' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '第一篇' })).toHaveAttribute('href', '/articles/first');
     expect(screen.getByText('摘要一')).toBeInTheDocument();
-    expect(screen.getByText('2026-08-02')).toBeInTheDocument();
+    expect(screen.getByText('2026-08-02 08:00:00')).toBeInTheDocument();
     expect(screen.queryByText('摘要二')).not.toBeInTheDocument();
+  });
+
+  it('凌晨发布时按中国标准时间显示当天日期和秒', () => {
+    render(<PostList posts={[makePost({ publishedAt: '2026-08-27T16:30:45.000Z' })]} basePath="/articles" />);
+
+    expect(screen.getByText('2026-08-28 00:30:45')).toBeInTheDocument();
   });
 
   it('不渲染标签链接（已按要求移除标签展示）', () => {

@@ -8,10 +8,7 @@ import { ReadingProgress } from '@/components/reading-progress';
 import { ShareActions } from '@/components/share-actions';
 import { RichText } from '@/components/rich-text';
 import { siteConfig } from '@/config/site';
-
-function formatDate(iso: string): string {
-  return iso.slice(0, 10);
-}
+import { formatChinaDateTime } from '@/lib/date-time';
 
 function sectionOf(kind: PostKind): { basePath: string; label: string } {
   return kind === 'learning' ? { basePath: '/learning', label: '学习记录' } : { basePath: '/articles', label: '文章' };
@@ -50,7 +47,7 @@ export async function PostDetailPage({
       <header className="mt-6 border-b border-rule pb-6 dark:border-night-rule">
         <h1 className="font-serif text-3xl font-bold leading-snug text-ink dark:text-cream">{post.title}</h1>
         <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-ink-soft dark:text-cream-soft">
-          <time dateTime={date}>{formatDate(date)}</time>
+          <time dateTime={date}>{formatChinaDateTime(date)}</time>
         </div>
         {post.summary ? (
           <p className="mt-4 text-sm leading-relaxed text-ink-soft dark:text-cream-soft">{post.summary}</p>
