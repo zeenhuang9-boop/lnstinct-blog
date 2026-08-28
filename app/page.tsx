@@ -56,20 +56,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section aria-labelledby="featured-projects-title">
-        <SectionHeading id="featured-projects-title">精选项目</SectionHeading>
-        {featuredProjects.length > 0 ? (
-          <ProjectList projects={featuredProjects} />
-        ) : (
-          <EmptyState title="还没有项目" description="项目导入后会在这里展示。" />
-        )}
-        <p className="mt-4">
-          <Link href="/projects" className="text-sm text-rust underline-offset-4 hover:underline dark:text-rust-soft">
-            查看全部项目 →
-          </Link>
-        </p>
-      </section>
-
       <section aria-labelledby="latest-articles-title">
         <SectionHeading id="latest-articles-title">最新文章</SectionHeading>
         <PostList posts={latestArticles} basePath="/articles" emptyTitle="还没有文章" emptyDescription="发布后会出现在这里。" />
@@ -92,6 +78,20 @@ export default async function HomePage() {
             </Link>
           </p>
         ) : null}
+      </section>
+
+      <section aria-labelledby="featured-projects-title">
+        <SectionHeading id="featured-projects-title">精选项目</SectionHeading>
+        {featuredProjects.length > 0 ? (
+          <ProjectList projects={featuredProjects} />
+        ) : (
+          <EmptyState title="还没有项目" description="项目导入后会在这里展示。" />
+        )}
+        <p className="mt-4">
+          <Link href="/projects" className="text-sm text-rust underline-offset-4 hover:underline dark:text-rust-soft">
+            查看全部项目 →
+          </Link>
+        </p>
       </section>
     </div>
   );

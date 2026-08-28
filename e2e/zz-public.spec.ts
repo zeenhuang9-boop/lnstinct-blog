@@ -5,6 +5,18 @@ import { test, expect } from '@playwright/test';
  * 文件以 zz- 开头，保证在内容创建测试之后运行。
  */
 test.describe('公开站点', () => {
+  test('首页项目区位于文章与学习记录之后', async ({ page }) => {
+    await page.goto('/');
+
+    const sectionOrder = await page.locator('section[aria-labelledby]').evaluateAll((sections) =>
+      sections.map((section) => section.getAttribute('aria-labelledby')),
+    );
+
+    expect(sectionOrder.indexOf('featured-projects-title')).toBeGreaterThan(
+      sectionOrder.indexOf('latest-learning-title'),
+    );
+  });
+
   test('首页关于区不再显示学习记录与了解更多按钮', async ({ page }) => {
     await page.goto('/');
     const aboutSection = page.locator('section[aria-labelledby="about-summary-title"]');

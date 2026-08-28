@@ -187,8 +187,13 @@ export function RichTextEditor({
 
       {mode === 'rich-text' ? (
         <>
+          <EditorContent
+            editor={editor}
+            className="rich-text-editor min-h-64 border border-b-0 border-rule bg-paper dark:border-night-rule dark:bg-night"
+          />
+
           <div
-            className="flex flex-wrap items-center gap-1 border border-b-0 border-rule bg-paper-soft p-2 dark:border-night-rule dark:bg-night-soft"
+            className="flex flex-wrap items-center gap-1 border border-t-0 border-rule bg-paper-soft p-2 dark:border-night-rule dark:bg-night-soft"
             role="toolbar"
             aria-label="正文格式工具栏"
           >
@@ -209,11 +214,6 @@ export function RichTextEditor({
         <ToolbarButton label="链接" active={editor.isActive('link')} onClick={setLink} />
         <ToolbarButton label={status === 'uploading' ? '上传中…' : '图片'} disabled={status === 'uploading'} onClick={() => fileInputRef.current?.click()} />
           </div>
-
-          <EditorContent
-            editor={editor}
-            className="rich-text-editor min-h-64 border border-rule bg-paper dark:border-night-rule dark:bg-night"
-          />
         </>
       ) : (
         <div>

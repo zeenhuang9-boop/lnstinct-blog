@@ -16,6 +16,15 @@ const headingDocument = {
 };
 
 describe('RichTextEditor Markdown 模式', () => {
+  it('将正文格式工具栏放在可增长正文的下方', async () => {
+    render(<RichTextEditor initialContent={headingDocument} onChange={vi.fn()} />);
+
+    const toolbar = await screen.findByRole('toolbar', { name: '正文格式工具栏' });
+    const editor = document.querySelector('.rich-text-editor');
+
+    expect(editor?.nextElementSibling).toBe(toolbar);
+  });
+
   it('可从富文本切换到 Markdown 源码并保留内容', async () => {
     const user = userEvent.setup();
     render(<RichTextEditor initialContent={headingDocument} onChange={vi.fn()} />);
