@@ -1,9 +1,12 @@
 # lnstinct. · 小泽的个人博客
 
+已上线：<https://www.lnstinct.cn/>
+
 ## 功能
 
-- **公开站点**：主页、学习记录、文章、项目、关于、404；文章与学习记录列表**按发布时间倒序**展示（无搜索、无标签筛选）；RSS、sitemap、robots。
-- **手机写作后台**：登录 → 写作（标题、摘要、正文、图片上传，内容类型：文章 / 学习记录）→ 自动保存 → 预览 → 发布/撤回 → 回收站恢复 → 单条永久删除（二次确认）。
+- **公开站点**：主页、学习记录、文章、项目、关于、404；主页顺序为文章 → 学习记录 → 项目，文章与学习记录列表**按发布时间倒序**展示（无搜索、无标签筛选）；RSS、sitemap、robots。
+- **手机写作后台**：登录 → 写作（富文本 / Markdown、标题、摘要、正文、图片上传，内容类型：文章 / 学习记录）→ 自动保存 → 预览 → 发布/撤回 → 回收站恢复 → 单条永久删除（二次确认）。富文本格式工具栏位于正文下方，便于持续写作。
+- **时间显示**：公开文章统一按 `Asia/Shanghai` 显示发布时间与更新时间，精确到秒。
 - **本地优先存储**：未配置 Supabase 时使用 `data/` 下的 JSON 文件存储，发布后公开页面立即可见；配置了 Supabase 公开变量时自动切换云端读取。
 
 ## 环境变量
@@ -29,6 +32,18 @@ npm run dev          # 开发模式 http://localhost:3000
 ```
 
 后台入口：`http://localhost:3000/admin/login`。
+
+## 线上部署
+
+正式站点为 <https://www.lnstinct.cn/>，由 Vercel 托管。推送到 GitHub 的 `main` 分支后，Vercel 会自动部署。
+
+在 Vercel 中配置以下生产环境变量：
+
+- `NEXT_PUBLIC_SITE_URL=https://www.lnstinct.cn`
+- Supabase 的 `NEXT_PUBLIC_SUPABASE_URL` 与 `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `ADMIN_PASSWORD` 与 `ADMIN_SESSION_SECRET`
+
+> Vercel 的本地文件系统不适合作为持久内容存储；线上写作前应确认 Supabase 已完成迁移、RLS 与管理员权限配置。
 
 ## 数据库与迁移
 
