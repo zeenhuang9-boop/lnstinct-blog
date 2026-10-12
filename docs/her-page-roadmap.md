@@ -39,19 +39,31 @@ flowchart TB
 
 ## 2. 数据模型：一份数据，两处展示
 
-内容全部在 `src/content/her.ts`（**默认值与回退**）与 `data/her.json`（**后台保存后的真实内容**）。**照片与时间线的绑定是这一节的核心契约。**
-
-数据流向（已实现）：
+**照片与时间线的绑定是这一节的核心契约。** 内容有三层来源，按顺序取第一份可用的：
 
 ```
-src/content/her.ts  ──默认值──┐
-                              ├─→ getHerProfile()  ← 三个公开页读这个
-data/her.json ──zod 校验通过──┘         ↑
-                                        └── saveHerProfile() ← /admin/her 表单
+Supabase `her_profile` 表 ──配了 Supabase 时优先──┐
+data/her.json ──本地开发 / 没配云端时的主来源────┼─→ getHerProfile() ← 三个公开页读这个
+src/content/her.ts ──默认值与最后回退────────────┘         ↑
+                                                            └── saveHerProfile() ← /admin/her
 ```
+
+| 场景 | 读哪里 | 写哪里 |
+|---|---|---|
+| 线上（Vercel，配了 Supabase） | 云端 `her_profile` 表 | 云端（**只有这条路能持久**；Vercel 文件系统是临时的） |
+| 本地开发（无 `.env.local`） | `data/her.json` | `data/her.json` |
+| 云端还没内容 / 表还没建 / 内容坏掉 | 回退 `src/content/her.ts` 的默认内容，并在后台给出可执行的中文提示 | — |
 
 - 文件不存在 / JSON 损坏 / zod 校验不过 → **回退默认内容**，且坏文件**原样保留**（不静默覆盖用户数据）。
 - `data/her.json` **不预建**：没保存过就不存在，避免「两份内容谁赢」说不清。
+- 云端读写的适配器在 `src/lib/content/her-cloud.ts`；错误分 `table_missing`（迁移没跑）与 `unavailable` 两类，
+  前者提示「去跑 `0002_her_profile.sql`」，后者说明降级原因——不把 PostgREST 的英文丢给用户。
+- **顺序的权威在数据层**：`timeline` 一律归一化成「`iso` 降序、`null` 排最后」，读写两个边界都过同一个函数，页面不排序。
+
+> ⚠️ **照片必须能被公开访问到，否则线上是裂图（2026-10-12 踩过）**：`public/media/` 被 `.gitignore` 忽略，
+> 而 Vercel 只提供提交进仓库的文件——线上实测 `/media/her/2026-10-12-01.jpg` 曾是 **404**。
+> 现在默认内容用的那张占位图用 `git add -f` 显式入库；**后台新上传的照片走 Supabase Storage**
+> （`src/lib/actions/media.ts` 检测到 service-role key 时上传到 `public-media` 桶），所以后续照片不会再掉进这个坑。
 
 ```ts
 export const PHOTO_DIR = '/media/her';
