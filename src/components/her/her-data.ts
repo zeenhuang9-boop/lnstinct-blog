@@ -12,6 +12,7 @@ import {
 import { daysTogether, describeBirthday, occurrenceOf, type CalendarDate } from '@/lib/date';
 
 import { formatLongDate, formatPhotoDay } from './her-format';
+import { resizeHerImage } from './her-image-url';
 import { photoAnchorId } from './her-photo-anchor';
 import type { HerGalleryGroup, HerGalleryPhoto, HerStatCard, HerTimelineItem } from './her-types';
 
@@ -48,7 +49,7 @@ export function buildTimelineItems(profile: HerProfile): HerTimelineItem[] {
           ? null
           : {
               href: `/her/photos#${photoAnchorId(photo.file)}`,
-              src: photoSrc(photo),
+              src: resizeHerImage(photoSrc(photo), 'thumb'),
               alt: joinParts([day, photo.caption ?? event.title]),
             },
     };
@@ -200,10 +201,14 @@ function toGalleryPhoto(photo: HerPhoto, event: HerEvent | null): HerGalleryPhot
   const day = event === null ? null : formatPhotoDay(event.iso);
   const note = photo.caption ?? null;
   const eventTitle = event?.title ?? null;
+  const full = photoSrc(photo);
 
   return {
     id: photoAnchorId(photo.file),
-    src: photoSrc(photo),
+    // 查看器用 view 档：Supabase 的图会降到 1600px 宽，避免把 4 MB 原图塞给手机
+    src: resizeHerImage(full, 'view'),
+    // 网格与时间线用 thumb 档（约 600px）：照片墙一页几十张，原图会让整页到 50 MB
+    thumbSrc: resizeHerImage(full, 'thumb'),
     // 没有事件也没有图注时留一个能读的兜底，别让查看器按钮的名字变成「放大查看：」。
     alt: joinParts([day, note ?? eventTitle]) || '照片',
     day,

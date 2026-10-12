@@ -8,8 +8,10 @@
 export type HerGalleryPhoto = {
   /** 锚点 id，规则见 `her-photo-anchor.ts` */
   readonly id: string;
-  /** 站内图片路径，由 `photoSrc()` 拼好 */
+  /** 原图地址（查看器用；Supabase 图片会自动降到 1600px 宽以内） */
   readonly src: string;
+  /** 缩略图地址（网格与时间线用，约 600px 宽）。见 `her-image-url.ts` */
+  readonly thumbSrc: string;
   /** 图片替代文本：图注优先，没有图注就用日期与事件名 */
   readonly alt: string;
   /** 「10 · 12」；事件没有 `iso` 时为 null */
@@ -38,6 +40,7 @@ export type HerGalleryGroup = {
 
 export type HerTimelineItemPhoto = {
   readonly href: string;
+  /** 缩略图地址（时间线上只是个小方块，用原图没意义还会拖慢整页） */
   readonly src: string;
   readonly alt: string;
 };

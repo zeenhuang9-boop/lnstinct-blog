@@ -178,9 +178,16 @@ src/components/her/her-subnav.tsx      三页共用子导航
 src/content/her.ts              内容（小泽唯一需要改的文件）
 ```
 
-**客户端边界（口径已修正）**：三个 page（`/her`、`/her/photos`、`/her/letter`）**必须是服务器组件，内容数据不得进入客户端包**；允许存在少量**客户端叶子组件**，目前恰好两个：`her-subnav.tsx` 与 `her-photo-viewer.tsx`。
+**客户端边界（口径已修正）**：三个 page（`/her`、`/her/photos`、`/her/letter`）**必须是服务器组件，内容数据不得进入客户端包**；允许存在少量**客户端叶子组件**：
 
-子导航必须用 `usePathname` 才能标出当前页——Next 16 的 layout 不随导航重渲染，读当前路径只能在客户端 hook 里做（依据：`node_modules/next/dist/docs/.../layout.md` 的 Pathname 一节）。最初写「只能有一个客户端文件」是把口径写窄了：真正的边界是**页面与数据不进客户端包**，而不是文件数量。若将来 build 输出显示客户端包异常变大，优先检查这两个叶子而不是推翻边界。
+| 客户端叶子 | 为什么必须是客户端 |
+|---|---|
+| `her-subnav.tsx` | `usePathname` 才能标出当前页——Next 16 的 layout 不随导航重渲染 |
+| `her-photo-viewer.tsx` | 照片网格的按钮与遮罩共享同一份状态（第几张 + 焦点回位） |
+| `her-timeline-thumb.tsx` | 缩略图的 `onError` 回退（变换会拒绝超大图，见下） |
+| `her-recent-photos.tsx` | 同上，首页那三张缩略图也要能回退 |
+
+真正的边界是**页面与数据不进客户端包**，而不是文件数量；这四个都是「只有交互能解释为什么在这」的叶子。
 
 ### 3.4 放大查看器（不装库）
 

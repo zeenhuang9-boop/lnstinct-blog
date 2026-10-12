@@ -1,6 +1,5 @@
-import Link from 'next/link';
-
 import type { HerTimelineItem } from './her-types';
+import { HerTimelineThumb } from './her-timeline-thumb';
 
 /**
  * 「我们的大事记」：单轴纵向时间线。
@@ -30,14 +29,7 @@ export function HerTimeline({ items }: { items: readonly HerTimelineItem[] }) {
                 待补
               </span>
             ) : (
-              <Link
-                href={item.photo.href}
-                className="block h-12 w-16 shrink-0 overflow-hidden rounded-sm border border-rule bg-paper-soft sm:h-[54px] sm:w-[72px] dark:border-night-rule dark:bg-night-soft"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element -- 本地 public/ 图片，按 docs/her-page-roadmap.md §3.5 不走 next/image */}
-                <img src={item.photo.src} alt="" loading="lazy" className="h-full w-full object-cover" />
-                <span className="sr-only">到照片墙看这张照片</span>
-              </Link>
+              <HerTimelineThumb href={item.photo.href} src={item.photo.src} alt={item.photo.alt} />
             )}
 
             <div className="min-w-0">

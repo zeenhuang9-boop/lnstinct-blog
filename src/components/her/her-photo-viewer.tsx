@@ -3,7 +3,28 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { originalHerImage } from './her-image-url';
 import type { HerGalleryGroup, HerGalleryPhoto } from './her-types';
+
+/**
+ * 图片加载失败时的兜底：换回原图再试一次。
+ *
+ * 为什么需要它（2026-10-12 实测）：Supabase 的按需缩放会拒绝超大分辨率的图
+ * （6144×8192 那张返回 `400 The source image resolution is too large to process`），
+ * 而它的**原图是能正常显示的**。没有这层兜底，那一张就会变成裂图。
+ *
+ * 只回退一次（`dataset.fallback` 打标），避免原图也失败时无限重试刷请求。
+ */
+function applyThumbFallback(event: React.SyntheticEvent<HTMLImageElement>): void {
+  const img = event.currentTarget;
+
+  if (img.dataset.fallback === '1') {
+    return;
+  }
+
+  img.dataset.fallback = '1';
+  img.src = originalHerImage(img.src);
+}
 
 /**
  * 照片墙 = 网格 + 原位放大查看器，两页里唯一的客户端组件。
@@ -228,9 +249,10 @@ export function HerPhotoViewer({ groups }: { groups: readonly HerGalleryGroup[] 
                           <span className="block aspect-[4/3] w-full overflow-hidden rounded-sm border border-rule bg-paper-soft dark:border-night-rule dark:bg-night-soft">
                             {/* eslint-disable-next-line @next/next/no-img-element -- 本地 public/ 图片，按 docs/her-page-roadmap.md §3.5 不走 next/image */}
                             <img
-                              src={photo.src}
+                              src={photo.thumbSrc}
                               alt=""
                               loading="lazy"
+                              onError={applyThumbFallback}
                               className="h-full w-full object-cover"
                             />
                           </span>
@@ -301,6 +323,7 @@ export function HerPhotoViewer({ groups }: { groups: readonly HerGalleryGroup[] 
                 <img
                   src={current.src}
                   alt={current.alt}
+                  onError={applyThumbFallback}
                   className="max-h-[70vh] w-auto max-w-full rounded-sm object-contain"
                 />
               </div>
