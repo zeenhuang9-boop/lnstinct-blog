@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="2520" viewBox="0 0 390 2520" font-family="'Songti SC','STSong','SimSun','Noto Serif CJK SC',Georgia,serif" lengthAdjust="spacingAndGlyphs">
+  <rect width="390" height="2520" fill="#faf3e6"/>
+
+  <!-- 标注：边距 16 -->
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="10" fill="#a8502f">
+    <line x1="16" y1="8" x2="16" y2="2512" stroke="#a8502f" opacity="0.35" stroke-dasharray="3 4"/>
+    <line x1="374" y1="8" x2="374" y2="2512" stroke="#a8502f" opacity="0.35" stroke-dasharray="3 4"/>
+    <text x="195" y="14" text-anchor="middle">390 × 手机 · 边距 16</text>
+  </g>
+
+  <!-- ===== 页头 ===== -->
+  <text x="16" y="66" font-size="20" font-weight="700" fill="#2b2620">lnstinct.</text>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13">
+    <rect x="258" y="46" width="28" height="26" rx="3" fill="none" stroke="#e0d5be"/>
+    <text x="272" y="63" text-anchor="middle" fill="#6f6353">夜</text>
+    <rect x="294" y="46" width="28" height="26" rx="3" fill="none" stroke="#e0d5be"/>
+    <circle cx="308" cy="56" r="4" fill="#a8502f"/>
+    <text x="308" y="60" text-anchor="middle" font-size="7" fill="#faf3e6">日</text>
+    <rect x="330" y="46" width="28" height="26" rx="3" fill="none" stroke="#e0d5be"/>
+    <text x="344" y="64" text-anchor="middle" font-size="15" fill="#6f6353">☰</text>
+  </g>
+  <line x1="0" y1="94" x2="390" y2="94" stroke="#e0d5be"/>
+
+  <!-- ===== 子导航：当前在「照片墙」 ===== -->
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14">
+    <text x="16" y="140" fill="#6f6353">我们</text>
+    <text x="70" y="140" fill="#2b2620" font-weight="700">照片墙</text>
+    <text x="140" y="140" fill="#6f6353">信</text>
+    <line x1="70" y1="156" x2="116" y2="156" stroke="#a8502f" stroke-width="2"/>
+  </g>
+
+  <!-- ===== 页面标题 ===== -->
+  <text x="16" y="224" font-size="30" font-weight="700" fill="#2b2620">照片墙</text>
+  <text x="16" y="256" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#6f6353">按时间分组，每组就是大事记上的一个</text>
+  <text x="16" y="280" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#6f6353">事件。共 12 张 · 3 个事件</text>
+
+  <!-- ===== 第一组 ===== -->
+  <line x1="16" y1="318" x2="374" y2="318" stroke="#e0d5be"/>
+  <text x="16" y="358" font-size="17" font-weight="700" fill="#2b2620">2026 年 10 月</text>
+  <text x="16" y="384" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#a8502f">做这一页的那天 · 回时间线 →</text>
+  <g stroke="#e0d5be">
+    <rect x="16" y="404" width="358" height="201" rx="3" fill="#f3e9d6"/>
+    <rect x="16" y="669" width="358" height="201" rx="3" fill="#e8d3c4"/>
+    <rect x="16" y="934" width="358" height="201" rx="3" fill="#f3e9d6"/>
+  </g>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353" opacity="0.42" text-anchor="middle">
+    <text x="195" y="508">照片</text>
+    <text x="195" y="773">照片</text>
+    <text x="195" y="1038">照片</text>
+  </g>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#6f6353">
+    <text x="16" y="630">10 · 12 · 那天你没看镜头</text>
+    <text x="16" y="895">10 · 12</text>
+    <text x="16" y="1160">10 · 11</text>
+  </g>
+
+  <!-- ===== 第二组：待填 ===== -->
+  <line x1="16" y1="1204" x2="374" y2="1204" stroke="#e0d5be"/>
+  <text x="16" y="1244" font-size="17" font-weight="700" fill="#2b2620">待填 · 第一次见面</text>
+  <rect x="16" y="1268" width="358" height="201" rx="3" fill="#f3e9d6" stroke="#e0d5be" stroke-dasharray="4 4"/>
+  <text x="195" y="1372" text-anchor="middle" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353" opacity="0.6">等你的照片</text>
+  <text x="16" y="1500" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#6f6353">没有照片时显示虚线空位，不留破图。</text>
+
+  <!-- ===== 点开后：手机全屏 ===== -->
+  <line x1="16" y1="1544" x2="374" y2="1544" stroke="#e0d5be"/>
+  <text x="16" y="1590" font-size="18" font-weight="700" fill="#2b2620">点开一张之后</text>
+  <rect x="16" y="1614" width="358" height="470" rx="3" fill="#1d1913" opacity="0.92"/>
+  <rect x="46" y="1660" width="298" height="223" rx="2" fill="#e8d3c4" stroke="#423a2d"/>
+  <text x="195" y="1776" text-anchor="middle" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353" opacity="0.55">照片 2 · 原比例</text>
+  <text x="46" y="1930" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#ece3d1">2026 年 10 月 12 日</text>
+  <text x="46" y="1954" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#b7ab94">做这一页的那天</text>
+  <circle cx="336" cy="1646" r="14" fill="none" stroke="#b7ab94"/>
+  <text x="336" y="1652" text-anchor="middle" font-size="14" fill="#ece3d1">×</text>
+  <text x="46" y="1786" font-size="22" fill="#b7ab94">‹</text>
+  <text x="344" y="1786" text-anchor="end" font-size="22" fill="#b7ab94">›</text>
+  <text x="46" y="2004" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#b7ab94">点遮罩或按 Esc 关闭</text>
+  <text x="16" y="2136" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#6f6353">手机上图片按屏幕宽度撑满，高度按原比例，不裁切。</text>
+
+  <!-- ===== 页脚 ===== -->
+  <line x1="0" y1="2420" x2="390" y2="2420" stroke="#e0d5be"/>
+  <text x="16" y="2462" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#6f6353">lnstinct. · 内容均为本人书写</text>
+  <text x="16" y="2488" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#6f6353">本页仅本机可见 · 未进主导航</text>
+</svg>

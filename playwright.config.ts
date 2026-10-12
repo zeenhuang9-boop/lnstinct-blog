@@ -7,6 +7,7 @@ export default defineConfig({
   workers: 1,
   reporter: [['list']],
   globalSetup: './e2e/global-setup.ts',
+  globalTeardown: './e2e/global-teardown.ts',
   use: {
     baseURL: 'http://127.0.0.1:3000',
     // 使用系统 Edge（msedge channel），避免额外下载浏览器。

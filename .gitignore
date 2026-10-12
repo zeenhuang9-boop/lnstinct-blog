@@ -20,6 +20,9 @@ supabase/.temp/
 # 调试残留（子代理调试产生的临时文件）
 _gh-check.ps1
 .test-probe*
+# 验证过程的原始日志与产物（本地参考用，不入库）
+.verify-*.txt
+.verification/
 _dev.log
 _*.bat
 _*.mjs

@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1856" viewBox="0 0 1700 1856" font-family="'Songti SC','STSong','SimSun','Noto Serif CJK SC',Georgia,serif" lengthAdjust="spacingAndGlyphs">
+  <!-- 画布 1700：中间 140–1580 是 1440 的页面本体，两侧留白放标注 -->
+  <rect width="1700" height="1856" fill="#faf3e6"/>
+
+  <!-- ===== 站点页头 ===== -->
+  <text x="172" y="80" font-size="22" font-weight="700" fill="#2b2620" letter-spacing="0.5">lnstinct.</text>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#6f6353">
+    <text x="250" y="77">主页</text>
+    <text x="300" y="77">学习记录</text>
+    <text x="380" y="77">文章</text>
+    <text x="440" y="77">项目</text>
+    <text x="500" y="77">关于</text>
+    <text x="560" y="77" fill="#a8502f">她</text>
+    <text x="580" y="70" font-size="9" fill="#a8502f" opacity="0.55">2</text>
+  </g>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">
+    <rect x="970" y="58" width="34" height="26" rx="3" fill="none" stroke="#e0d5be"/>
+    <text x="987" y="76" text-anchor="middle">夜</text>
+    <rect x="1014" y="58" width="34" height="26" rx="3" fill="none" stroke="#e0d5be"/>
+    <circle cx="1031" cy="70" r="5" fill="#a8502f"/>
+    <text x="1031" y="74" text-anchor="middle" font-size="8" fill="#faf3e6">日</text>
+  </g>
+  <line x1="0" y1="140" x2="1700" y2="140" stroke="#e0d5be"/>
+
+  <!-- ===== 子导航：三页共用，进入「她」这个空间后才有 ===== -->
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14">
+    <text x="172" y="188" fill="#2b2620" font-weight="700">我们</text>
+    <text x="232" y="188" fill="#6f6353">照片墙</text>
+    <text x="312" y="188" fill="#6f6353">信</text>
+    <line x1="172" y1="200" x2="212" y2="200" stroke="#a8502f" stroke-width="2"/>
+  </g>
+
+  <!-- ===== Hero ===== -->
+  <text x="172" y="280" font-size="48" font-weight="700" fill="#2b2620">写给 阿念</text>
+  <text x="534" y="280" font-size="26" fill="#a8502f" opacity="0.75">·</text>
+  <text x="562" y="280" font-size="18" fill="#6f6353" opacity="0.7">2026</text>
+  <text x="172" y="324" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="16" fill="#6f6353">一页只写给你看的地方：日子、照片，还有一些一直没说完的话。</text>
+
+  <!-- ===== 生日数字卡 ===== -->
+  <rect x="172" y="372" width="768" height="220" rx="4" fill="#faf3e6" stroke="#e0d5be"/>
+  <rect x="216" y="468" width="6" height="34" fill="#a8502f"/>
+  <text x="240" y="470" font-size="66" font-weight="700" fill="#2b2620">364</text>
+  <text x="358" y="470" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="16" fill="#6f6353">天</text>
+  <text x="240" y="500" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">距离下一次生日 · 10 月 11 日</text>
+  <text x="240" y="526" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#a8502f">昨天刚过完，这次我记牢了。</text>
+  <line x1="540" y1="418" x2="540" y2="546" stroke="#e0d5be"/>
+  <rect x="584" y="468" width="6" height="34" fill="#a8502f" opacity="0.45"/>
+  <text x="608" y="470" font-size="66" font-weight="700" fill="#2b2620" opacity="0.55">12</text>
+  <text x="677" y="470" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="16" fill="#6f6353" opacity="0.55">天</text>
+  <text x="608" y="500" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">站在这页上的时间 · 建页纪念日</text>
+  <text x="608" y="526" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#a8502f">等你的纪念日填进来。</text>
+  <text x="240" y="562" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#6f6353" opacity="0.75">明天生日那天，第一张卡会自动换成「今天」；这张图按 10 月 12 日算。</text>
+
+  <!-- ===== 我们的大事记（事件上挂照片，是"照片↔时间线"绑定的第一处） ===== -->
+  <text x="172" y="690" font-size="22" font-weight="700" fill="#2b2620">我们的大事记</text>
+  <text x="940" y="732" text-anchor="end" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">每个事件可以带一张照片，点了跳到照片墙那一张</text>
+  <line x1="330" y1="736" x2="330" y2="1000" stroke="#e0d5be"/>
+
+  <circle cx="330" cy="766" r="6" fill="#a8502f"/>
+  <rect x="358" y="742" width="72" height="54" rx="2" fill="#e8d3c4" stroke="#e0d5be"/>
+  <text x="394" y="774" text-anchor="middle" font-size="11" fill="#6f6353" opacity="0.7">照 1</text>
+  <text x="448" y="760" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#a8502f">2026 · 10 · 12</text>
+  <text x="448" y="786" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="16" fill="#2b2620">做这一页的那天</text>
+  <text x="448" y="810" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#6f6353">照片挂在事件上，不是单独摆的。</text>
+
+  <circle cx="330" cy="856" r="6" fill="#e0d5be"/>
+  <rect x="358" y="832" width="72" height="54" rx="2" fill="#f3e9d6" stroke="#e0d5be" stroke-dasharray="3 3"/>
+  <text x="394" y="864" text-anchor="middle" font-size="11" fill="#6f6353" opacity="0.7">待补</text>
+  <text x="448" y="850" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#6f6353">待填</text>
+  <text x="448" y="876" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="16" fill="#2b2620">第一次见面</text>
+  <text x="448" y="900" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#6f6353">没有确切日期就先空着，虚线框不占位。</text>
+
+  <circle cx="330" cy="946" r="6" fill="#e0d5be"/>
+  <rect x="358" y="922" width="72" height="54" rx="2" fill="#f3e9d6" stroke="#e0d5be" stroke-dasharray="3 3"/>
+  <text x="394" y="954" text-anchor="middle" font-size="11" fill="#6f6353" opacity="0.7">待补</text>
+  <text x="448" y="940" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#6f6353">待填</text>
+  <text x="448" y="966" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="16" fill="#2b2620">在一起那天</text>
+  <text x="448" y="990" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#6f6353">填了之后，上面会多出「已走过 N 天」。</text>
+
+  <!-- ===== 最近的照片（首页只放最近几张，其余去照片墙） ===== -->
+  <text x="172" y="1110" font-size="22" font-weight="700" fill="#2b2620">最近的照片</text>
+  <text x="940" y="1110" text-anchor="end" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">全部 12 张 →</text>
+  <g stroke="#e0d5be">
+    <rect x="172" y="1140" width="244" height="183" rx="3" fill="#f3e9d6"/>
+    <rect x="434" y="1140" width="244" height="183" rx="3" fill="#e8d3c4"/>
+    <rect x="696" y="1140" width="244" height="183" rx="3" fill="#f3e9d6"/>
+  </g>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353" opacity="0.42" text-anchor="middle">
+    <text x="294" y="1238">照片</text>
+    <text x="556" y="1238">照片</text>
+    <text x="818" y="1238">照片</text>
+  </g>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#a8502f">
+    <text x="172" y="1348">10 · 12</text>
+    <text x="434" y="1348">10 · 12</text>
+    <text x="696" y="1348">10 · 11</text>
+  </g>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="#6f6353">
+    <text x="172" y="1372">做这一页的那天</text>
+    <text x="434" y="1372">第一次见面</text>
+    <text x="696" y="1372">在一起那天</text>
+  </g>
+  <text x="172" y="1420" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">每张缩略图下面都标着它属于哪个事件；照片墙按同样的分组展开。</text>
+
+  <!-- ===== 去下一个页面的入口 ===== -->
+  <line x1="172" y1="1470" x2="940" y2="1470" stroke="#e0d5be"/>
+  <text x="172" y="1524" font-size="20" font-weight="700" fill="#2b2620">照片墙</text>
+  <text x="172" y="1552" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#6f6353">按时间分组的全部照片，点开在原位放大。</text>
+  <text x="400" y="1540" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#a8502f">照片墙 →</text>
+  <line x1="172" y1="1596" x2="940" y2="1596" stroke="#e0d5be"/>
+  <text x="172" y="1650" font-size="20" font-weight="700" fill="#2b2620">写给你的信</text>
+  <text x="172" y="1678" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#6f6353">长文排版，用站点现成的正文样式。</text>
+  <text x="348" y="1666" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#a8502f">信 →</text>
+
+  <!-- ===== 页脚 ===== -->
+  <line x1="0" y1="1740" x2="1700" y2="1740" stroke="#e0d5be"/>
+  <text x="172" y="1786" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">lnstinct. · 内容均为本人书写</text>
+  <text x="940" y="1786" text-anchor="end" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">本页仅本机可见 · 未进主导航</text>
+
+  <!-- ===== 标注 ===== -->
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="11" fill="#a8502f">
+    <line x1="120" y1="188" x2="146" y2="188" stroke="#a8502f" opacity="0.5"/>
+    <text x="114" y="176" text-anchor="end">子导航</text>
+    <text x="114" y="192" text-anchor="end">三页共用</text>
+    <line x1="120" y1="468" x2="146" y2="468" stroke="#a8502f" opacity="0.5"/>
+    <text x="114" y="456" text-anchor="end">核心数字</text>
+    <text x="114" y="472" text-anchor="end">第一屏可见</text>
+    <line x1="120" y1="766" x2="146" y2="766" stroke="#a8502f" opacity="0.5"/>
+    <text x="114" y="754" text-anchor="end">事件带照片</text>
+    <text x="114" y="770" text-anchor="end">照片↔时间线</text>
+    <line x1="120" y1="1238" x2="146" y2="1238" stroke="#a8502f" opacity="0.5"/>
+    <text x="114" y="1226" text-anchor="end">首页只放</text>
+    <text x="114" y="1242" text-anchor="end">最近 3 张</text>
+    <line x1="960" y1="180" x2="984" y2="180" stroke="#a8502f" opacity="0.5"/>
+    <text x="990" y="188">子导航三页共用</text>
+    <text x="990" y="204">当前页用锈红下划线</text>
+    <line x1="960" y1="452" x2="984" y2="452" stroke="#a8502f" opacity="0.5"/>
+    <text x="990" y="460">数字由日期算出</text>
+    <text x="990" y="476">生日当天显示「今天」</text>
+    <line x1="960" y1="1128" x2="984" y2="1128" stroke="#a8502f" opacity="0.5"/>
+    <text x="990" y="1136">只有这三张来自事件字段</text>
+    <text x="990" y="1152">其余去照片墙看</text>
+    <line x1="960" y1="1440" x2="984" y2="1440" stroke="#a8502f" opacity="0.5"/>
+    <text x="990" y="1448">两个入口各自独立成页</text>
+    <text x="990" y="1464">正文与相册不挤在这一页</text>
+    <line x1="960" y1="1596" x2="984" y2="1596" stroke="#a8502f" opacity="0.5"/>
+    <text x="990" y="1604">信的内容我不代写</text>
+    <text x="990" y="1620">排版按站点现成样式</text>
+  </g>
+</svg>

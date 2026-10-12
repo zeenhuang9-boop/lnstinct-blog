@@ -33,6 +33,9 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  /* 中文没有单词边界，URL、长数字和用户填的超长文本一旦不可断行就会把页面撑出横向滚动。
+     全站统一允许在任意位置断行；正常文本的断行位置不受影响。 */
+  overflow-wrap: anywhere;
 }
 
 .dark body {

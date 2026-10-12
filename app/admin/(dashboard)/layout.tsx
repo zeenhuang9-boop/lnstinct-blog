@@ -7,6 +7,7 @@ const navItems = [
   { href: '/admin', label: '概览' },
   { href: '/admin/posts', label: '内容' },
   { href: '/admin/projects', label: '项目' },
+  { href: '/admin/her', label: '她' },
 ];
 
 export default async function AdminDashboardLayout({ children }: { children: React.ReactNode }) {

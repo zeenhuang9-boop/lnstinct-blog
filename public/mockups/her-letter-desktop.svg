@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1220" viewBox="0 0 1700 1220" font-family="'Songti SC','STSong','SimSun','Noto Serif CJK SC',Georgia,serif" lengthAdjust="spacingAndGlyphs">
+  <!-- 画布 1700：中间 140–1580 是 1440 的页面本体，两侧留白放标注 -->
+  <rect width="1700" height="1220" fill="#faf3e6"/>
+
+  <!-- ===== 站点页头 ===== -->
+  <text x="172" y="80" font-size="22" font-weight="700" fill="#2b2620" letter-spacing="0.5">lnstinct.</text>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#6f6353">
+    <text x="250" y="77">主页</text>
+    <text x="300" y="77">学习记录</text>
+    <text x="380" y="77">文章</text>
+    <text x="440" y="77">项目</text>
+    <text x="500" y="77">关于</text>
+    <text x="560" y="77" fill="#a8502f">她</text>
+    <text x="580" y="70" font-size="9" fill="#a8502f" opacity="0.55">2</text>
+  </g>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">
+    <rect x="970" y="58" width="34" height="26" rx="3" fill="none" stroke="#e0d5be"/>
+    <text x="987" y="76" text-anchor="middle">夜</text>
+    <rect x="1014" y="58" width="34" height="26" rx="3" fill="none" stroke="#e0d5be"/>
+    <circle cx="1031" cy="70" r="5" fill="#a8502f"/>
+    <text x="1031" y="74" text-anchor="middle" font-size="8" fill="#faf3e6">日</text>
+  </g>
+  <line x1="0" y1="140" x2="1700" y2="140" stroke="#e0d5be"/>
+
+  <!-- ===== 子导航：当前在「信」 ===== -->
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14">
+    <text x="172" y="188" fill="#6f6353">我们</text>
+    <text x="232" y="188" fill="#6f6353">照片墙</text>
+    <text x="312" y="188" fill="#2b2620" font-weight="700">信</text>
+    <line x1="312" y1="204" x2="326" y2="204" stroke="#a8502f" stroke-width="2"/>
+  </g>
+
+  <!-- ===== 信：正文用站点 .rich-text 规格（衬线 17px / 行高 1.9） ===== -->
+  <text x="172" y="290" font-size="36" font-weight="700" fill="#2b2620">写给你的信</text>
+  <text x="172" y="330" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">2026 年 10 月 12 日</text>
+  <line x1="172" y1="366" x2="940" y2="366" stroke="#e0d5be"/>
+
+  <g font-size="17" fill="#2b2620">
+    <text x="172" y="426">阿念：</text>
+    <text x="172" y="466">这里的位置是留给你的，我不是在客气。整页内容我只写了两件事：</text>
+    <text x="172" y="502">日期怎么算，照片放哪里。剩下的话得你自己说。</text>
+    <text x="172" y="542">你把想写的段落粘进内容文件就行，段落、引用、粗体、列表都认，排版</text>
+    <text x="172" y="578">跟站里其他文章完全一样，不需要调格式。</text>
+  </g>
+
+  <rect x="172" y="612" width="3" height="80" fill="#a8502f"/>
+  <g font-size="16" font-style="italic" fill="#6f6353">
+    <text x="196" y="640">「生日我忘了，但这一页是我认真做的。」</text>
+    <text x="196" y="670" font-size="13">—— 这句话是占位的，换成你自己的。</text>
+  </g>
+
+  <g font-size="17" fill="#2b2620">
+    <text x="172" y="750">写完之后这一页会出现在「她」这个空间里：主页留着日子和大事记，照片</text>
+    <text x="172" y="786">在照片墙，只有这一页是纯粹的文字。</text>
+  </g>
+
+  <text x="748" y="880" text-anchor="end" font-size="17" fill="#2b2620">小泽</text>
+  <text x="748" y="910" text-anchor="end" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">2026 · 10</text>
+
+  <line x1="172" y1="970" x2="940" y2="970" stroke="#e0d5be"/>
+  <text x="172" y="1016" font-size="20" font-weight="700" fill="#2b2620">还没写完的时候</text>
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14" fill="#6f6353">
+    <text x="172" y="1052">内容为空时，这一页显示一句「这封信还没写完」，不留空白页、不显示占位符号。</text>
+    <text x="172" y="1078">段落之间用站点现有的 .rich-text 间距，不另写一套行高。</text>
+  </g>
+
+  <!-- ===== 页脚 ===== -->
+  <line x1="0" y1="1160" x2="1700" y2="1160" stroke="#e0d5be"/>
+  <text x="172" y="1194" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">lnstinct. · 内容均为本人书写</text>
+  <text x="940" y="1194" text-anchor="end" font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="13" fill="#6f6353">本页仅本机可见 · 未进主导航</text>
+
+  <!-- ===== 标注 ===== -->
+  <g font-family="system-ui,'PingFang SC','Microsoft YaHei',sans-serif" font-size="11" fill="#a8502f">
+    <line x1="120" y1="290" x2="146" y2="290" stroke="#a8502f" opacity="0.5"/>
+    <text x="114" y="278" text-anchor="end">整页只有文字</text>
+    <text x="114" y="294" text-anchor="end">不给照片留位</text>
+    <line x1="120" y1="640" x2="146" y2="640" stroke="#a8502f" opacity="0.5"/>
+    <text x="114" y="628" text-anchor="end">引用块沿用</text>
+    <text x="114" y="644" text-anchor="end">全站样式</text>
+    <line x1="960" y1="420" x2="984" y2="420" stroke="#a8502f" opacity="0.5"/>
+    <text x="990" y="428">正文我一个字都不代写</text>
+    <text x="990" y="444">只把排版做好</text>
+    <line x1="960" y1="870" x2="984" y2="870" stroke="#a8502f" opacity="0.5"/>
+    <text x="990" y="878">署名与日期可空</text>
+    <text x="990" y="894">空则整块不渲染</text>
+    <line x1="960" y1="1060" x2="984" y2="1060" stroke="#a8502f" opacity="0.5"/>
+    <text x="990" y="1068">空状态有话说</text>
+    <text x="990" y="1084">不摆空壳</text>
+  </g>
+</svg>
