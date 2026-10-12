@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 
 import { herProfileSchema } from '@/domain/her-schemas';
 import { requireAdmin } from '@/lib/auth/server';
+import { HerCloudError } from '@/lib/content/her-cloud';
 import { saveHerProfile } from '@/lib/content/her-source';
 
 /**
@@ -64,7 +65,13 @@ export async function saveHerProfileAction(formData: FormData): Promise<SaveHerP
   try {
     await saveHerProfile(profile);
   } catch (error) {
-    return { ok: false, error: error instanceof Error ? error.message : '写入 data/her.json 失败。' };
+    // 云端问题单独说人话：最常见的是「表还没建」（迁移没跑），
+    // 这时把「去哪儿跑哪份 SQL」直接写进提示，而不是把 PostgREST 的英文丢给用户。
+    if (error instanceof HerCloudError) {
+      return { ok: false, error: error.message };
+    }
+
+    return { ok: false, error: error instanceof Error ? error.message : '保存内容失败。' };
   }
 
   // 三个公开页是 force-dynamic，本来就不会吃到旧缓存；这里再显式失效一次，

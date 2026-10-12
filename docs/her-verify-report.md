@@ -216,6 +216,47 @@ Running 8 tests using 1 worker
 
 ---
 
+### 3.9 最终全量（写入方全部停手 + 进程级锁落地后重跑）：96 passed / 0 failed / 0 skipped
+
+Lead 加好 E2E 进程级锁（`data/.her-seed.lock`，`wx` 独占创建 + `process.kill(pid,0)` 存活探测接管残留锁）
+并确认所有写入方停手后，我重跑全量：
+
+```
+npm.cmd run test       →  Test Files  24 passed (24) / Tests  214 passed (214)     TEST_EXIT=0
+npm.cmd run lint       →  (无输出)                                                LINT_EXIT=0
+npm.cmd run typecheck  →  (无输出)                                                TYPECHECK_EXIT=0
+npm.cmd run build      →  BUILD_EXIT=0（含 ƒ /her、ƒ /her/photos、ƒ /her/letter、ƒ /admin/her）
+npx.cmd playwright test →  96 passed (1.7m)
+```
+
+**三个数字：passed = 96，failed = 0，skipped = 0。** skipped 逐条说明：**没有 skipped**——
+全文不含 `skipped` / `failed` / `did not run` / `flaky`（逐个关键词搜索确认），汇总只有一行 `96 passed`。
+
+构成（共 96）：
+
+| spec | 条数 | 说明 |
+|---|---|---|
+| `her-routes.spec.ts` | 8 | 三路由 200、noindex、子导航 + `aria-current`、免登录、不进导航/sitemap |
+| `her-flows.spec.ts` | 20 | 倒计时一致、跨页互链、照片真解码、查看器、空状态、未归属尾组、对称用例 |
+| `her-admin.spec.ts` | 11 | 后台闭环 4 + 容错 2 + hydration/字段 id 回归 2 + 上传 2（含多照片归属）+ console 1 |
+| `her-audit.spec.ts` | 27 | Lead 保留的对抗性回归套件（多照片多事件归属漂移、并发保存、边界文案等） |
+| 既有（aa-empty-state 1 / admin 19 / blog-flow 7 / zz-public 14） | 41 | 本次未改动，作为回归基线 |
+
+**锁与还原实测**：这一轮 teardown 打印 `[global-teardown] 已还原测试前的 data/her.json`
+（测试前**确实存在**真实内容，走的是「还原」分支）。跑完 `data/` 只剩
+`.global-setup-ran`、`her.json`、`posts.json`、`projects.json`，**锁 / 备份 / state 三个临时文件全部清理**；
+小泽的真实内容（986 B、称呼 小宇、纪念日 2025-12-13、1 条事件、1 张照片）在整轮测试后**逐字节完好**。
+
+**两处由 Lead 修正我测试写法的地方**（我复核后认可并保留）：
+1. 字段 id 的断言规则已更新：字段 id 现在是**纯渲染下标**（`her-event-title-0`），不再含事件 id
+   （事件 id 可能含中文，不是合法 HTML id）。断言与注释按此改。
+2. 多照片那条此前失败**不是产品缺陷，是测试写法**：`getByText(/已就位：/).last()` 会把**上一行**的
+   「已就位」误当成新行上传成功，于是在上一张还在上传时就去点保存，那张被当空行丢掉。
+   已改为对 `p` 元素做**计数**断言，并在点「+ 加一张」后等文件输入框数量 +1 再取 `.last()`。
+   这条与 §4.2 里我自己的几处属同一类错误——**假失败往往先出在测试写法上**。
+
+---
+
 ## 4. 缺陷清单
 
 ### 4.1 本任务期间发现并已由实现者修复的
@@ -398,29 +439,36 @@ Running 8 tests using 1 worker
 
 ## 6. 一句话结论
 
-**可以通过。** 「她」页面（三页 + 后台编辑闭环）我独立验证下来没有发现功能性缺陷，
-全量验证 `test / lint / typecheck / build` **四项全部 exit 0**，E2E **68 passed / 0 failed / 0 skipped**。
+**可以通过。** 「她」页面（三页 + 后台编辑闭环 + 内容可编辑）我独立验证下来没有发现功能性缺陷，
+全量验证 `test / lint / typecheck / build` **四项全部 exit 0**，E2E **96 passed / 0 failed / 0 skipped**。
 
-最终全量实测（写入方全部停手后跑的，原始尾部）：
+最终全量实测（写入方全部停手、进程级锁落地后跑的，原始尾部）：
 
 ```
 npm.cmd run test       →  Test Files  24 passed (24) / Tests  214 passed (214)   TEST_EXIT=0
 npm.cmd run lint       →  (无输出)                                              LINT_EXIT=0
 npm.cmd run typecheck  →  (无输出)                                              TYPECHECK_EXIT=0
 npm.cmd run build      →  BUILD_EXIT=0，路由表含 ƒ /her、ƒ /her/photos、ƒ /her/letter、ƒ /admin/her
-npx.cmd playwright test →  68 passed (1.0m)
+npx.cmd playwright test →  96 passed (1.7m)
 ```
 
-E2E 三个数字（Lead 要求）：**passed = 68，failed = 0，skipped = 0**。
+E2E 三个数字（Lead 要求）：**passed = 96，failed = 0，skipped = 0**。
 逐条说明 skipped：**没有 skipped**（全文不含 `skipped` / `failed` / `did not run` / `flaky`）。
-构成：`her-flows` 20 条 + `her-admin` 10 条 + `her-routes` 8 条 + 既有用例 29 条；基线是 30 条，本次净增 38 条。
+构成：`her-routes` 8 + `her-flows` 20 + `her-admin` 11 + `her-audit` 27 + 既有 41 = 96。
+（基线为 30 条；我新增 39 条，Lead 保留的 audit 对抗套件 27 条。）
 
 验证覆盖（全部真跑）：三路由 200 与 `noindex`、共用子导航 + `aria-current`、三页闭环互链、
 时间线缩略图 → 照片墙锚点（精确 href + 点击 + 进视口 + 图真解码）、照片墙组标题 → 回时间线、
 查看器 Esc/关闭按钮/滚动锁/焦点回位、空状态、**后台闭环 4 条四段式差异断言**、
-**坏 JSON 3 形态 + 缺文件回退**、**照片上传闭环**、**缺陷 10 hydration 回归**、**task-8 未归属尾组**、
+**坏 JSON 3 形态 + 缺文件回退**、**照片上传闭环（含同一事件挂两张照片的归属不漂移）**、
+**缺陷 10 hydration 回归**、**task-8 未归属尾组**、
 390px 与 1280px 无横向滚动、视觉与样式图一致、隐私扫描无真名/学校/联系方式；
 日期层另有 **8400 例独立差分零不一致**。
+
+**数据安全（本报告最重要的一条结论）**：E2E 期间会写 `data/her.json`，而它是小泽的真实内容。
+整轮验证跑完后我逐字核对：**内容逐字节完好**（986 B、称呼 小宇、纪念日 2025-12-13、1 条事件、1 张照片，
+照片 `d7d00231-…jpg` 与事件的引用关系一致），锁 / 备份 / state 三个临时文件全部清理，
+`public/media/` 里他引用的那张 1.3 MB 照片与内容引用的占位图都在。
 
 必须写明的保留（都不在「她」页面的实现里）：
 1. **未验证项**：暗色主题视觉、`prefers-reduced-motion` 淡入行为、信写满后的长篇排版、

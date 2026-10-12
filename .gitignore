@@ -10,6 +10,11 @@ test-results/
 *.tsbuildinfo
 
 # 本地内容与媒体（用户数据，不入库）
+#
+# 例外：`public/media/her/` 里的照片是页面真正要用的资源，用 `git add -f` 显式入库。
+# 为什么必须入库：公开站点（Vercel）只提供提交进仓库的文件，被忽略的图片线上必然 404
+#（2026-10-12 线上实测：/media/her/2026-10-12-01.jpg 是 404）。
+# 后台新上传的照片不走这条路——它们存进 Supabase Storage（见 src/lib/actions/media.ts）。
 data/
 public/media/
 
