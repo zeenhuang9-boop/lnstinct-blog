@@ -25,11 +25,13 @@
 
 2026-10-27 维护（本机重建工作副本后）：修复 RSS `<link>`/`<guid>` 的双斜杠（`${base}/${path}` → `${base}${path}`，新增回归测试 `tests/rss-route.test.ts`）；`.gitignore` 里 `道歉信*.md` 忽略规则原为 GBK 编码，实际不生效，已改为 UTF-8（并删除一行误入的 `x.startsWith('*')`）；首页去掉只显示「首页」的 title 覆盖，回退站点默认标题。
 
+2026-10-27 依赖安全升级：next 16.3.2 → 16.4.3、zod 4.4.3 → 4.6.7、vitest 4.1.11 → 4.1.12（patch），`npm audit` 0 漏洞（升级前生产依赖 4 个公告，含 critical）。
+
 验证基线（2026-10-27 本机实测）：
 - `npm run test`：27 个测试文件 / 235 个测试通过
-- `npm run lint`、`npm run typecheck`、`npm run build`：通过（路由含 ƒ `/`、ƒ `/her`、ƒ `/admin/her` 等）
-- `npm audit --omit=dev`：4 个生产依赖漏洞，**待升级**（next 16.3.2 → 16.4.3、zod 4.4.3 → 4.6.7；sharp / source-map-js 随 next 升级解决）。升级前不要把「0 漏洞」当现状
-- `npx playwright test`：历史基线 96/96（2026-10-12）；2026-10-27 未重跑
+- `npm run lint`、`npm run typecheck`、`npm run build`：通过（Next.js 16.4.3；路由含 ƒ `/`、ƒ `/her`、ƒ `/admin/her` 等）
+- `npm audit`：0 漏洞
+- `npx playwright test`：96 passed / 0 failed / 0 skipped（2026-10-27 升级后重跑，2.7m）
 - 隐私扫描：公开页面无真实姓名/学校/联系方式/密钥
 
 ## 1. 目标（已完成）
@@ -40,7 +42,7 @@
 
 - 公开身份只允许「小泽 / lnstinct.」；不得出现真实姓名、学校名称、手机号、QQ、私人邮箱、家庭信息。
 - 协会经历只写「数学建模协会负责人」。
-- 所有项目文件只在 `E:\我的个人博客`；不向 C 盘创建资产。
+- 所有项目文件只在当前项目根目录（见文首）；不向 C 盘创建资产。
 - 禁止批量删除文件/目录；只能单文件明确删除。
 - 不提供评论、公开注册、定时发布、多人协作、访问统计后台或批量删除。
 - 公网部署已由用户完成；后续生产环境变量、数据库、内容或部署变更仍需明确授权并在修改后验证。
@@ -49,9 +51,9 @@
 
 ## 3. 技术栈（已锁定）
 
-Next.js 16.3.2（App Router、Turbopack）、React 19.2.8、TypeScript 5.9.3、Tailwind 4.3.3、
-Vitest 4.1.11 + Testing Library、Playwright 1.62.1（系统 Edge channel，不下载浏览器）、
-Tiptap 全部 3.30.5（含官方 Beta Markdown 扩展）、zod 4.4.3、@supabase/supabase-js 2.112.4 + @supabase/ssr 0.12.4（未配置时不启用）。
+Next.js 16.4.3（App Router、Turbopack）、React 19.2.8、TypeScript 5.9.3、Tailwind 4.3.3、
+Vitest 4.1.12 + Testing Library、Playwright 1.62.1（系统 Edge channel，不下载浏览器）、
+Tiptap 全部 3.30.5（含官方 Beta Markdown 扩展）、zod 4.6.7、@supabase/supabase-js 2.112.4 + @supabase/ssr 0.12.4（未配置时不启用）。
 
 ## 4. 架构
 
