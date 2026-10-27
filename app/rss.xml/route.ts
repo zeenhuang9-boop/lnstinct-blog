@@ -54,8 +54,8 @@ export async function GET() {
 
       return `    <item>
       <title>${escapeXml(post.title)}</title>
-      <link>${escapeXml(`${base}/${path}`)}</link>
-      <guid>${escapeXml(`${base}/${path}`)}</guid>
+      <link>${escapeXml(`${base}${path}`)}</link>
+      <guid>${escapeXml(`${base}${path}`)}</guid>
       <pubDate>${escapeXml(new Date(post.publishedAt ?? post.createdAt).toUTCString())}</pubDate>
       ${post.summary ? `<description>${escapeXml(post.summary)}</description>` : text ? `<description>${escapeXml(text)}</description>` : ''}
     </item>`;

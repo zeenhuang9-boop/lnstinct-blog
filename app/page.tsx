@@ -9,7 +9,6 @@ import { SectionHeading } from '@/components/section-heading';
 import { EmptyState } from '@/components/empty-state';
 
 export const metadata: Metadata = {
-  title: '首页',
   alternates: { canonical: '/' },
 };
 

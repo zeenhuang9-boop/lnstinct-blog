@@ -1,9 +1,9 @@
 # AGENTS.md — lnstinct-blog 项目记忆
 
 > 本文件是项目的唯一持久记忆：更换 AI、压缩上下文或新会话开始时，先完整阅读本文件。
-> 项目根目录：`E:\我的个人博客`
+> 项目根目录：`E:\work\新建文件夹\blog`（2026-10-27 由 GitHub 重新克隆到本机；旧路径 `E:\我的个人博客` 已不存在）
 
-## 0. 一句话状态（最后更新：2026-09-10）
+## 0. 一句话状态（最后更新：2026-10-27）
 
 **本地全功能博客已完成并验收，且已成功部署到公网**：公开站点 + 手机写作后台 + 本地文件存储 + Supabase 就绪迁移。
 已通过真实浏览器（Edge 桌面 + 390px 手机）走通「登录 → 写作（含图片上传）→ 发布 → 公开页显示无误」，
@@ -21,11 +21,15 @@
 
 2026-09-10 更新：README 已与正式域名、现有功能和 Vercel 自动部署方式同步，提交 `630b72a` 已推送；`https://www.lnstinct.cn/` 首页 HTTP 检查为 200。
 
-验证基线（最近一次全量，全部 PASS）：
-- `npm run test`：21 个测试文件 / 111 个测试通过
-- `npm run lint`、`npm run typecheck`、`npm run build`：通过
-- `npm audit --audit-level=high`：0 漏洞
-- `npx playwright test`：30/30 通过；生产模式 `next build && next start` 冒烟通过
+2026-10-12 更新：「她」三页上线（`/her`、`/her/photos`、`/her/letter`）与 `/admin/her` 后台编辑器；内容改存 Supabase `her_profile` 表（迁移 `supabase/migrations/0002_her_profile.sql`），照片走 Supabase Storage + 按需缩放。三页 `noindex`、不进主导航与 sitemap。上线提交 `6aaa49b`～`481e2fd`，细节见 `docs/her-page-roadmap.md`、`docs/her-verify-report.md`、`docs/her-audit-report.md`。
+
+2026-10-27 维护（本机重建工作副本后）：修复 RSS `<link>`/`<guid>` 的双斜杠（`${base}/${path}` → `${base}${path}`，新增回归测试 `tests/rss-route.test.ts`）；`.gitignore` 里 `道歉信*.md` 忽略规则原为 GBK 编码，实际不生效，已改为 UTF-8（并删除一行误入的 `x.startsWith('*')`）；首页去掉只显示「首页」的 title 覆盖，回退站点默认标题。
+
+验证基线（2026-10-27 本机实测）：
+- `npm run test`：27 个测试文件 / 235 个测试通过
+- `npm run lint`、`npm run typecheck`、`npm run build`：通过（路由含 ƒ `/`、ƒ `/her`、ƒ `/admin/her` 等）
+- `npm audit --omit=dev`：4 个生产依赖漏洞，**待升级**（next 16.3.2 → 16.4.3、zod 4.4.3 → 4.6.7；sharp / source-map-js 随 next 升级解决）。升级前不要把「0 漏洞」当现状
+- `npx playwright test`：历史基线 96/96（2026-10-12）；2026-10-27 未重跑
 - 隐私扫描：公开页面无真实姓名/学校/联系方式/密钥
 
 ## 1. 目标（已完成）
